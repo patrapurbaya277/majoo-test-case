@@ -43,7 +43,9 @@ class _DetailPageState extends State<DetailPage> {
           //   title: Text("Movie Detail"),
           // ),
           floatingActionButton: InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+            },
             child: Padding(
               padding: const EdgeInsets.only(top: 30, left: 10),
               child: Icon(
@@ -123,6 +125,7 @@ class _DetailPageState extends State<DetailPage> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: Colors.white, fontSize: 40),
               ),
+              SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -139,12 +142,18 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ],
                   ),
-                  Text(
-                    state.data.releaseDate != null
-                        ? DateFormat("MMMM yyyy")
-                            .format(state.data.releaseDate!)
-                        : "Not released yet",
-                    style: TextStyle(color: Colors.white),
+                  Row(
+                    children: [
+                      Icon(Icons.date_range_rounded, color: Colors.white),
+                      SizedBox(width:5),
+                      Text(
+                        state.data.releaseDate != null
+                            ? DateFormat("MMMM yyyy")
+                                .format(state.data.releaseDate!)
+                            : "Not released yet",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
                   ),
                 ],
               ),

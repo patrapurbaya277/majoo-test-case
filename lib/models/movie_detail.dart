@@ -25,7 +25,7 @@ class MovieDetail {
         posterPath: json["poster_path"] == null
             ? ""
             : "https://image.tmdb.org/t/p/w500/" + json["poster_path"],
-        releaseDate: DateTime.parse(json["release_date"]??json["first_release_date"]),
+        releaseDate: DateTime.parse(json["release_date"]??json["first_air_date"]),
         title: json["title"]??json["name"],
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],

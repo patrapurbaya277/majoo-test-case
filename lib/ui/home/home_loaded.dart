@@ -20,7 +20,6 @@ class HomeLoaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Widget _buildSlider() {
       return Container(
         // height: 400,
@@ -33,63 +32,74 @@ class HomeLoaded extends StatelessWidget {
             ),
             items: data[2]
                 .map(
-                  (e) => Stack(
-                    children: [
-                      Container(
-                        foregroundDecoration: BoxDecoration(
-                            gradient: LinearGradient(
-                          colors: [
-                            Colors.black,
-                            Colors.transparent,
-                          ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.center,
-                        )),
-                        child: CachedNetworkImage(
-                          imageUrl: e.posterPath.toString(),
-                          placeholder: (context, url) => CustomShimmer(
-                            child: Container(
-                              height: 500,
-                              // width: double.infinity,
-                              color: Colors.black,
-                            ),
-                          ),
-                          memCacheHeight: 900,
-                          memCacheWidth: 600,
-                          height: 600,
-                          width: 405,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 20,
-                        left: 20,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius: BorderRadius.circular(10)),
-                              padding: EdgeInsets.all(8),
-                              child: Text(
-                                "Trending Now",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 15),
+                  (e) => InkWell(
+                    onTap: () {
+                      // print(e.id);
+                      // print(e.type);
+                      // print(e.posterPath);
+                      // print(e.title);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              DetailPage(id: e.id.toString(), type: e.type!)));
+                    },
+                    child: Stack(
+                      children: [
+                        Container(
+                          foregroundDecoration: BoxDecoration(
+                              gradient: LinearGradient(
+                            colors: [
+                              Colors.black,
+                              Colors.transparent,
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.center,
+                          )),
+                          child: CachedNetworkImage(
+                            imageUrl: e.posterPath.toString(),
+                            placeholder: (context, url) => CustomShimmer(
+                              child: Container(
+                                height: 500,
+                                // width: double.infinity,
+                                color: Colors.black,
                               ),
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              e.title.toString(),
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          ],
+                            memCacheHeight: 900,
+                            memCacheWidth: 600,
+                            height: 600,
+                            width: 405,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                    ],
+                        Positioned(
+                          bottom: 20,
+                          left: 20,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: BorderRadius.circular(10)),
+                                padding: EdgeInsets.all(8),
+                                child: Text(
+                                  "Trending Now",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 15),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                e.title.toString(),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 )
                 .toList()),
@@ -103,8 +113,8 @@ class HomeLoaded extends StatelessWidget {
           SizedBox(
             height: 25,
           ),
-          _buildMovies("Now Playing Movies", data[0],context),
-          _buildMovies("Popular Movies", data[1],context),
+          _buildMovies("Now Playing Movies", data[0], context),
+          _buildMovies("Popular Movies", data[1], context),
           TextButton(
             onPressed: () {
               context.read<AuthBlocCubit>().logOut();
@@ -133,7 +143,7 @@ class HomeLoaded extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             children: [
               const SizedBox(width: 15),
-              ...data.map((e) => movieItemWidget(e,context)).toList(),
+              ...data.map((e) => movieItemWidget(e, context)).toList(),
               const SizedBox(width: 15),
             ],
           ),
@@ -142,10 +152,14 @@ class HomeLoaded extends StatelessWidget {
     );
   }
 
-  Widget movieItemWidget(Movie movie,context) {
+  Widget movieItemWidget(Movie movie, context) {
     return InkWell(
-      onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>DetailPage(id: movie.id.toString(), type: movie.type!,)));
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => DetailPage(
+                  id: movie.id.toString(),
+                  type: movie.type!,
+                )));
       },
       child: Container(
         width: 135,
@@ -155,7 +169,8 @@ class HomeLoaded extends StatelessWidget {
           children: [
             Container(
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
               child: CachedNetworkImage(
                 imageUrl: movie.posterPath.toString(),
                 placeholder: (context, url) => CustomShimmer(

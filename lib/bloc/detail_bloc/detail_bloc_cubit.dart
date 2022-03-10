@@ -18,6 +18,7 @@ class DetailBlocCubit extends Cubit<DetailBlocState> {
   }
 
   void getDetail(String id, String type) async {
+    emit(DetailBlocInitialState());
     emit(DetailBlocLoadingState());
     ApiServices apiServices = ApiServices();
     var result = await apiServices.getDetail(type, id);
