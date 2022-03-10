@@ -12,7 +12,7 @@ class ErrorScreen extends StatelessWidget {
       {Key? key,
       this.gap = 10,
       this.retryButton,
-      this.message="",
+      this.message = "",
       this.fontSize = 14,
       required this.retry,
       this.textColor})
@@ -26,27 +26,23 @@ class ErrorScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              message??"",
-              style: TextStyle(
-                  fontSize: 12, color: textColor ?? Colors.black),
+              message ?? "",
+              style: TextStyle(fontSize: 12, color: textColor ?? Colors.black),
             ),
-            retry != null
-                ? Column(
-                    children: [
-                      SizedBox(
-                        height: 100,
-                      ),
-                      retryButton ??
-                          IconButton(
-                            onPressed: () {
-                              if(retry!=null)
-                                retry();
-                            },
-                            icon: Icon(Icons.refresh_sharp),
-                          ),
-                    ],
-                  )
-                : SizedBox()
+            Column(
+              children: [
+                SizedBox(
+                  height: 100,
+                ),
+                retryButton ??
+                    IconButton(
+                      onPressed: () {
+                        retry();
+                      },
+                      icon: Icon(Icons.refresh_sharp),
+                    ),
+              ],
+            )
           ],
         ),
       ),

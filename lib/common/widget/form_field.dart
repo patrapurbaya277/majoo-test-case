@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +39,7 @@ abstract class CustomFormFieldController<T> extends ChangeNotifier
 
   CustomFormFieldController(this._value) {
     final value = fromValue(_value);
-    if (value != null) {
+    if (value.isNotEmpty) {
       textController.text = value;
     }
   }
@@ -66,7 +65,7 @@ abstract class CustomFormFieldController<T> extends ChangeNotifier
     _value = newValue;
     if (_value != null) {
       final text = fromValue(_value);
-      if (text != null && text != textController.text) {
+      if (text.isNotEmpty && text != textController.text) {
         textController.text = text;
       }
     } else {

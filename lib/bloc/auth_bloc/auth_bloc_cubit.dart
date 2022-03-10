@@ -35,7 +35,7 @@ class AuthBlocCubit extends Cubit<AuthBlocState> {
       sharedPreferences.setString("user_value", data);
       emit(AuthBlocLoggedInState());
     } else {
-      emit(AuthBlocErrorState("Login gagal, periksa kembali inputan anda"));
+      emit(AuthBlocErrorState("Login failed, check your email and password"));
     }
   }
 

@@ -49,7 +49,6 @@ class _LoginState extends State<LoginPage> {
           if (state is AuthBlocErrorState) {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(state.error)));
-            // context.read<AuthBlocCubit>().emit(AuthBlocLoginState());
           }
         },
         child: Padding(
@@ -57,24 +56,8 @@ class _LoginState extends State<LoginPage> {
           child: Center(
             child: SingleChildScrollView(
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Text(
-                  //   'Selamat Datang',
-                  //   style: TextStyle(
-                  //     fontSize: 24,
-                  //     fontWeight: FontWeight.bold,
-                  //     // color: colorBlue,
-                  //   ),
-                  // ),
-                  // Text(
-                  //   'Silahkan login terlebih dahulu',
-                  //   style: TextStyle(
-                  //     fontSize: 15,
-                  //     fontWeight: FontWeight.w400,
-                  //   ),
-                  // ),
                   _title(),
                   _subTitle(),
                   Divider(
@@ -130,7 +113,7 @@ class _LoginState extends State<LoginPage> {
 
   void _loginSuccess() {
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("Login Berhasil")));
+        .showSnackBar(SnackBar(content: Text("Login Success")));
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (BuildContext context) {
       context.read<HomeBlocCubit>().fetchingData();
@@ -154,7 +137,7 @@ class _LoginState extends State<LoginPage> {
               if (val != null)
                 return pattern.hasMatch(val)
                     ? null
-                    : 'Masukkan email yang valid';
+                    : 'Email is invalid';
               return null;
             },
           ),
@@ -185,19 +168,19 @@ class _LoginState extends State<LoginPage> {
   Widget _register() {
     return Align(
       alignment: Alignment.center,
-      child: TextButton(
-        onPressed: () async {
+      child: InkWell(
+        onTap: () async {
           context.read<RegisterBlocCubit>().init();
           Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => RegisterPage()));
         },
         child: RichText(
           text: TextSpan(
-              text: 'Belum punya akun? ',
+              text: 'No account ? ',
               style: TextStyle(color: Colors.black45),
               children: [
                 TextSpan(
-                  text: 'Daftar',
+                  text: 'Register',
                 ),
               ]),
         ),

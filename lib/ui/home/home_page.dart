@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:majootestcase/bloc/auth_bloc/auth_bloc_cubit.dart';
 import 'package:majootestcase/ui/login/login_page.dart';
-import 'package:path/path.dart';
 import '../../bloc/home_bloc/home_bloc_cubit.dart';
 import 'home_loaded.dart';
 import '../extra/loading.dart';
@@ -18,21 +16,21 @@ class HomePage extends StatelessWidget {
       return await showDialog(
             context: context,
             builder: (context) => new AlertDialog(
-              title: new Text('Apakah anda yakin ?'),
-              content: new Text('Ingin keluar dari aplikasi'),
+              title: new Text('Are you sure ?'),
+              content: new Text('Exit from app'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
-                  child: new Text('Tidak',
+                  child: new Text('Cancel',
                       style: TextStyle(color: Color(0xff00adef))),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
-                  child: new Text('Ya',
+                  child: new Text('Yes',
                       style: TextStyle(color: Color(0xff00adef))),
                 ),
               ],

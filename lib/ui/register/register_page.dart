@@ -86,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _registerSuccess(state) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Register Berhasil"),
+      content: Text("Register Success"),
     ));
     Navigator.pop(context);
     context.read<AuthBlocCubit>().loginUser(state.user);
@@ -161,7 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
             validator: (val) {
               final pattern = new RegExp(r'([\d\w]{1,}@[\w\d]{1,}\.[\w]{1,})');
               if (val != null)
-                return pattern.hasMatch(val) ? null : 'email is invalid';
+                return pattern.hasMatch(val) ? null : 'Email is invalid';
               return null;
             },
           ),

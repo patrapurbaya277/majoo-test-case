@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:majootestcase/models/movie.dart';
 import 'package:majootestcase/models/movie_detail.dart';
 import 'package:majootestcase/models/movie_response.dart';
-import 'package:majootestcase/models/tv_detail.dart';
 import 'package:majootestcase/services/dio_config_service.dart' as dioConfig;
 
 class ApiServices {

@@ -21,7 +21,6 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   @override
   void initState() {
-    // TODO: implement initState
     context.read<DetailBlocCubit>().getDetail(widget.id, widget.type);
     super.initState();
   }

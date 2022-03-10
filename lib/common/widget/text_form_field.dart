@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -45,7 +44,7 @@ class CustomTextFormField extends CustomFormField<String> {
           },
           validator: (picker) {
             if (mandatory && (picker == null || picker.isEmpty)) {
-              return 'Form tidak boleh kosong';
+              return 'Fill the required field';
             }
             if (validator != null) {
               return validator(picker);
@@ -166,7 +165,7 @@ class _CustomTextFormState extends State<_CustomTextForm> {
                             child: SizedBox(
                               width: constraints.maxWidth * 0.9,
                               child: Text(
-                                _hint != null ? _hint : 'Isi form disini',
+                                _hint != null ? _hint : 'Fill the field here',
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),

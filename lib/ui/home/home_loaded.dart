@@ -1,17 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:majootestcase/bloc/auth_bloc/auth_bloc_cubit.dart';
 import 'package:majootestcase/models/movie.dart';
-import 'package:majootestcase/models/movie_response.dart';
 import 'package:majootestcase/ui/extra/detail_page.dart';
-import 'package:path/path.dart';
-
-import '../../bloc/detail_bloc/detail_bloc_cubit.dart';
 import '../../common/widget/custom_shimmer.dart';
-import '../login/login_page.dart';
 
 class HomeLoaded extends StatelessWidget {
   final List<List<Movie>> data;

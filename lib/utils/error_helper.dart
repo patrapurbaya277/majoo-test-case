@@ -15,6 +15,7 @@ class ErrorHelper {
     String message = "Something went wrong";
     print(
         'error === ${error.response}  ==== ${error.response != null ? error.response?.data : 'noresponse'} ==== ${error.response != null ? error.response?.extra : 'no response'}=== ${error.message}');
+    // ignore: unnecessary_type_check
     if (error is DioError) {
       if (error.error is SocketException || error.type == DioErrorType.connectTimeout) {
         message =
