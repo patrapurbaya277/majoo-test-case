@@ -43,26 +43,36 @@ class HomePage extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: _onWillPop,
-      child:
-          BlocBuilder<HomeBlocCubit, HomeBlocState>(builder: (context, state) {
-        if (state is HomeBlocLoadedState) {
-          return HomeLoaded(data: state.listMovie);
-        } else if (state is HomeBlocLoadingState) {
+      child: BlocListener<AuthBlocCubit, AuthBlocState>(
+        listener: (context, state) {
+          if (state is AuthBlocLoginState) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => LoginPage()));
+          }
+        },
+        child: BlocBuilder<HomeBlocCubit, HomeBlocState>(
+            builder: (context, state) {
+          if (state is HomeBlocLoadedState) {
+            return HomeLoaded(data: [
+              state.nowPlayingList,
+              state.popularList,
+              state.trendingList
+            ]);
+          } else if (state is HomeBlocInitialState) {
+            return Scaffold();
+          } else if (state is HomeBlocErrorState) {
+            return ErrorScreen(
+              message: state.error,
+              retry: () {
+                context.read<HomeBlocCubit>().fetchingData();
+              },
+            );
+          }
           return LoadingIndicator();
-        } else if (state is HomeBlocInitialState) {
-          return Scaffold();
-        } else if (state is HomeBlocErrorState) {
-          return ErrorScreen(
-            message: state.error,
-            retry: () {
-              context.read<HomeBlocCubit>().fetchingData();
-            },
-          );
-        }
-
-        return Center(
-            child: Text(kDebugMode ? "state not implemented $state" : ""));
-      }),
+        }),
+      ),
     );
   }
 }

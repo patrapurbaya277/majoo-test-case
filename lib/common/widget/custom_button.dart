@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final String? text;
   final double? height;
+  final double? width;
   final VoidCallback? onPressed;
   final Widget? leadingIcon;
   final OutlinedBorder? shapeBorder;
@@ -12,6 +13,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton(
       {Key? key,
       this.text,
+      this.width = 80,
       this.height = 40,
       this.onPressed,
       this.leadingIcon,
@@ -23,6 +25,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton.outline(
       {Key? key,
       this.text,
+      this.width=80,
       this.height = 40,
       this.onPressed,
       this.leadingIcon,
@@ -66,35 +69,37 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
-    final color = isSecondary ? Colors.transparent : primaryColor;
+    final color = isSecondary ? Color.fromRGBO(0, 0, 0, 0) : primaryColor;
     return ButtonTheme(
-      height: height!.toDouble(),
       buttonColor: color,
-      minWidth: double.infinity,
-      child: isOutline
-          ? OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                backgroundColor: color,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                shape: _shapeBorder(context),
-              ).copyWith(
-                  side: MaterialStateProperty.all(BorderSide(
-                color: _color(context),
-                width: 2,
-              ))),
-              icon: leadingIcon ?? const SizedBox(),
-              label: _label(context),
-              onPressed: onPressed)
-          : TextButton.icon(
-              style: TextButton.styleFrom(
-                backgroundColor: color,
-                shape: _shapeBorder(context),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                onSurface: Colors.grey,
-              ),
-              icon: leadingIcon ?? const SizedBox(),
-              label: _label(context),
-              onPressed: onPressed),
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: isOutline
+            ? OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: color,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  shape: _shapeBorder(context),
+                ).copyWith(
+                    side: MaterialStateProperty.all(BorderSide(
+                  color: _color(context),
+                  width: 2,
+                ))),
+                icon: leadingIcon ?? const SizedBox(),
+                label: _label(context),
+                onPressed: onPressed)
+            : TextButton.icon(
+                style: TextButton.styleFrom(
+                  backgroundColor: color,
+                  shape: _shapeBorder(context),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onSurface: Colors.grey,
+                ),
+                icon: leadingIcon ?? const SizedBox(),
+                label: _label(context),
+                onPressed: onPressed),
+      ),
     );
   }
 }

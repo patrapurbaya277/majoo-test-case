@@ -12,9 +12,9 @@ class MovieResponse {
       );
 
   // List get data => null;
-  Map<String, dynamic> toJson() => {
-        "results": List<dynamic>.from(results!.map((x) => x.toJson())),
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "results": List<dynamic>.from(results!.map((x) => x.toJson())),
+  //     };
 }
 
 // class MovieResponse {

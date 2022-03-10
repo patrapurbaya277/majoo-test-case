@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class MovieListShimmer extends StatelessWidget {
+class CustomShimmer extends StatelessWidget {
   final Widget child;
-  const MovieListShimmer({Key? key, required this.child}) : super(key: key);
+  const CustomShimmer({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

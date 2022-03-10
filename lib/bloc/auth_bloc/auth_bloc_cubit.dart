@@ -25,8 +25,8 @@ class AuthBlocCubit extends Cubit<AuthBlocState> {
   }
 
   void loginUser(User user) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     emit(AuthBlocLoadingState());
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     SqliteService sqlService = SqliteService();
     var result = await sqlService.login(user.email, user.password);
     if (result != null) {
@@ -34,8 +34,8 @@ class AuthBlocCubit extends Cubit<AuthBlocState> {
       String data = user.toJson().toString();
       sharedPreferences.setString("user_value", data);
       emit(AuthBlocLoggedInState());
-    }else{
-      emit(AuthBlocErrorState("Login Gagal, periksa kembali inputan anda"));
+    } else {
+      emit(AuthBlocErrorState("Login gagal, periksa kembali inputan anda"));
     }
   }
 

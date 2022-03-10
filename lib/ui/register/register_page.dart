@@ -19,6 +19,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextController();
   final _passwordController = TextController();
   final _usernameController = TextController();
+  final _emailFocus = FocusNode();
+  final _usernameFocus = FocusNode();
+  final _passwordFocus = FocusNode();
 
   bool _isObscurePassword = true;
 
@@ -27,35 +30,101 @@ class _RegisterPageState extends State<RegisterPage> {
     return BlocListener<RegisterBlocCubit, RegisterBlocState>(
       listener: (context, state) {
         if (state is RegisterBlocErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(state.error),
-          ));
+          _registerError(state);
         }
         if (state is RegisterBlocSuccessState) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Register Berhasil"),
-          ));
-          Navigator.pop(context);
-          context.read<AuthBlocCubit>().loginUser(state.user);
+          _registerSuccess(state);
         }
       },
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: GestureDetector(
+          onTap: _unfocus,
           child: Padding(
-            padding: EdgeInsets.only(top: 75, left: 25, bottom: 25, right: 25),
-            child: Column(
-              children: [
-                _form(),
-                SizedBox(height: 50),
-                CustomButton(
-                  height: 100,
-                  text: "Register",
-                  onPressed: _handleRegister,
-                )
-              ],
+            padding:
+                const EdgeInsets.only(left: 25, bottom: 25, right: 25),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _backButton(),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    _title(),
+                    Divider(
+                      color: Theme.of(context).primaryColor,
+                      endIndent: MediaQuery.of(context).size.width / 1.2,
+                      thickness: 5,
+                    ),
+                    SizedBox(
+                      height: 60,
+                    ),
+                    _form(),
+                    SizedBox(height: 50),
+                    CustomButton(
+                      // height: 100,
+                      width: MediaQuery.of(context).size.width,
+                      text: "Register",
+                      onPressed: _handleRegister,
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _unfocus() {
+    _emailFocus.unfocus();
+    _usernameFocus.unfocus();
+    _passwordFocus.unfocus();
+  }
+
+  void _registerSuccess(state) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Register Berhasil"),
+    ));
+    Navigator.pop(context);
+    context.read<AuthBlocCubit>().loginUser(state.user);
+  }
+
+  void _registerError(state) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(state.error),
+    ));
+  }
+
+  Widget _backButton() {
+    return Row(
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style: ButtonStyle(
+            alignment: Alignment.centerLeft,
+            padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+          ),
+          child: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).primaryColor,
+            size: 30,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _title() {
+    return Text(
+      "Create New Account",
+      style: TextStyle(
+        fontSize: 35,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -86,6 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
             context: context,
             controller: _emailController,
             isEmail: true,
+            focusNode: _emailFocus,
             hint: 'Example@123.com',
             label: 'Email',
             validator: (val) {
@@ -96,12 +166,14 @@ class _RegisterPageState extends State<RegisterPage> {
             },
           ),
           CustomTextFormField(
+            focusNode: _usernameFocus,
             context: context,
             controller: _usernameController,
             hint: 'username',
             label: 'username',
           ),
           CustomTextFormField(
+            focusNode: _passwordFocus,
             context: context,
             label: 'Password',
             hint: 'password',

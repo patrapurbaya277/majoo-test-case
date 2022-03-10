@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:majootestcase/bloc/auth_bloc/auth_bloc_cubit.dart';
 import 'package:majootestcase/bloc/home_bloc/home_bloc_cubit.dart';
@@ -29,17 +30,20 @@ class _LoginState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Theme.of(context).primaryColor,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarColor: Theme.of(context).primaryColor,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ));
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return Scaffold(
       body: BlocListener<AuthBlocCubit, AuthBlocState>(
         listener: (context, state) {
           if (state is AuthBlocLoggedInState) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Login Berhasil")));
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (BuildContext context) {
-              context.read<HomeBlocCubit>().fetchingData();
-              return HomePage();
-            }));
+            _loginSuccess();
           }
 
           if (state is AuthBlocErrorState) {
@@ -48,50 +52,90 @@ class _LoginState extends State<LoginPage> {
             // context.read<AuthBlocCubit>().emit(AuthBlocLoginState());
           }
         },
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(top: 75, left: 25, bottom: 25, right: 25),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Selamat Datang',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    // color: colorBlue,
+        child: Padding(
+          padding: EdgeInsets.only(top: 75, left: 25, bottom: 25, right: 25),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Text(
+                  //   'Selamat Datang',
+                  //   style: TextStyle(
+                  //     fontSize: 24,
+                  //     fontWeight: FontWeight.bold,
+                  //     // color: colorBlue,
+                  //   ),
+                  // ),
+                  // Text(
+                  //   'Silahkan login terlebih dahulu',
+                  //   style: TextStyle(
+                  //     fontSize: 15,
+                  //     fontWeight: FontWeight.w400,
+                  //   ),
+                  // ),
+                  _title(),
+                  _subTitle(),
+                  Divider(
+                    color: Theme.of(context).primaryColor,
+                    endIndent: MediaQuery.of(context).size.width / 1.2,
+                    thickness: 5,
                   ),
-                ),
-                Text(
-                  'Silahkan login terlebih dahulu',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
+                  SizedBox(
+                    height: 60,
                   ),
-                ),
-                SizedBox(
-                  height: 9,
-                ),
-                _form(),
-                SizedBox(
-                  height: 50,
-                ),
-                CustomButton(
-                  text: 'Login',
-                  onPressed: handleLogin,
-                  height: 100,
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                _register(),
-              ],
+                  _form(),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  CustomButton(
+                    text: 'Login',
+                    onPressed: handleLogin,
+                    // height: 100,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  _register(),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _title() {
+    return Text(
+      "Welcome !",
+      style: TextStyle(
+        fontSize: 35,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Widget _subTitle() {
+    return Text(
+      "Please fill the form login",
+      style: TextStyle(
+        fontSize: 15,
+        // fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  void _loginSuccess() {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Login Berhasil")));
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (BuildContext context) {
+      context.read<HomeBlocCubit>().fetchingData();
+      return HomePage();
+    }));
   }
 
   Widget _form() {
@@ -108,7 +152,9 @@ class _LoginState extends State<LoginPage> {
             validator: (val) {
               final pattern = new RegExp(r'([\d\w]{1,}@[\w\d]{1,}\.[\w]{1,})');
               if (val != null)
-                return pattern.hasMatch(val) ? null : 'Masukkan email yang valid';
+                return pattern.hasMatch(val)
+                    ? null
+                    : 'Masukkan email yang valid';
               return null;
             },
           ),

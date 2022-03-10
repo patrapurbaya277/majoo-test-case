@@ -10,6 +10,7 @@ class CustomTextFormField extends CustomFormField<String> {
     String? label,
     String? title,
     String? hint,
+    FocusNode? focusNode,
     required TextController controller,
     BuildContext? context,
     bool enabled = true,
@@ -28,6 +29,7 @@ class CustomTextFormField extends CustomFormField<String> {
           enabled: enabled,
           builder: (FormFieldState<String> state) {
             return _CustomTextForm(
+              focusNode: focusNode,
               label: label??"",
               controller: controller,
               hint: hint??"",
@@ -65,6 +67,7 @@ class TextController extends CustomFormFieldController<String> {
 
 class _CustomTextForm extends StatefulWidget {
   final FormFieldState<String>? state;
+  final FocusNode? focusNode;
   final TextController? controller;
   final double? padding;
   final String? label;
@@ -77,6 +80,7 @@ class _CustomTextForm extends StatefulWidget {
   final Widget? suffixIcon;
 
   const _CustomTextForm({
+    this.focusNode,
      this.state,
     this.controller,
     this.label,
@@ -115,7 +119,7 @@ class _CustomTextFormState extends State<_CustomTextForm> {
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(() => setState(() {}));
+    (widget.focusNode??_focusNode).addListener(() => setState(() {}));
   }
 
   @override
@@ -155,7 +159,7 @@ class _CustomTextFormState extends State<_CustomTextForm> {
                         Positioned(
                             top: _label != null
                                 ? 17
-                                : _focusNode.hasFocus
+                                : (widget.focusNode??_focusNode).hasFocus
                                     ? 17
                                     : 9,
                             left: 10,
@@ -178,7 +182,7 @@ class _CustomTextFormState extends State<_CustomTextForm> {
                           textInputAction: widget.textInputAction,
                           keyboardType: keyboardType,
                           inputFormatters: inputFormatters,
-                          focusNode: _focusNode,
+                          focusNode: widget.focusNode,
                           textAlignVertical:
                               _label == null ? TextAlignVertical.center : null,
                           controller: widget.controller?.textController,
@@ -193,7 +197,7 @@ class _CustomTextFormState extends State<_CustomTextForm> {
                                   FloatingLabelBehavior.always,
                               errorText: widget.state!.errorText,
                               alignLabelWithHint: true,
-                              suffixIcon: _focusNode.hasFocus
+                              suffixIcon: (widget.focusNode??_focusNode).hasFocus
                                   ? widget.suffixIcon ??
                                   IconButton(
                                     icon: const Icon(Icons.cancel),

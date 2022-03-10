@@ -15,7 +15,7 @@ class AuthBlocLoggedInState extends AuthBlocState {}
 
 class AuthBlocLoginState extends AuthBlocState {}
 
-class AuthBlocSuccesState extends AuthBlocState {}
+// class AuthBlocSuccesState extends AuthBlocState {}
 
 class AuthBlocLoadedState extends AuthBlocState {
   final data;

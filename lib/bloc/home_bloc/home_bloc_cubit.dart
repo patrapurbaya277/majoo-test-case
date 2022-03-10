@@ -12,12 +12,54 @@ class HomeBlocCubit extends Cubit<HomeBlocState> {
 
   void fetchingData() async {
     emit(HomeBlocLoadingState());
-    ApiServices apiServices = ApiServices();
-    MovieResponse? movieResponse = await apiServices.getMovieList();
-    if (movieResponse == null) {
+    try {
+      MovieResponse? popular, nowPlaying, trending;
+      popular = await fetchNowPlaying();
+      nowPlaying = await fetchPopular();
+      trending = await fetchTrending();
+      if (popular != null && nowPlaying != null && trending!=null) {
+        emit(HomeBlocLoadedState(nowPlaying.results!, popular.results!, trending.results!));
+      } else {
+        emit(HomeBlocErrorState("Error Unknown"));
+      }
+    } catch (e) {
       emit(HomeBlocErrorState("Error Unknown"));
+    }
+  }
+
+  Future<MovieResponse?> fetchNowPlaying() async {
+    ApiServices apiServices = ApiServices();
+    MovieResponse? movieResponse = await apiServices.getNowPlayingMovies();
+    if (movieResponse == null) {
+      // emit(HomeBlocErrorState("Error Unknown"));
+      return null;
     } else {
-      emit(HomeBlocLoadedState(movieResponse.results!));
+      // emit(HomeBlocLoadedState(movieResponse.results!));
+      return movieResponse;
+    }
+  }
+
+  Future<MovieResponse?> fetchTrending() async {
+    ApiServices apiServices = ApiServices();
+    MovieResponse? movieResponse = await apiServices.getTrending();
+    if (movieResponse == null) {
+      // emit(HomeBlocErrorState("Error Unknown"));
+      return null;
+    } else {
+      // emit(HomeBlocLoadedState(movieResponse.results!));
+      return movieResponse;
+    }
+  }
+
+  Future<MovieResponse?> fetchPopular() async {
+    ApiServices apiServices = ApiServices();
+    MovieResponse? movieResponse = await apiServices.getPopularMovies();
+    if (movieResponse == null) {
+      // emit(HomeBlocErrorState("Error Unknown"));
+      return null;
+    } else {
+      // emit(HomeBlocLoadedState(movieResponse.results!));
+      return movieResponse;
     }
   }
 }

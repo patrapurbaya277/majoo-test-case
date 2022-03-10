@@ -1,9 +1,10 @@
-
+import 'package:flutter/services.dart';
 import 'package:majootestcase/ui/login/login_page.dart';
 import 'package:flutter/foundation.dart';
 import 'bloc/auth_bloc/auth_bloc_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/detail_bloc/detail_bloc_cubit.dart';
 import 'bloc/home_bloc/home_bloc_cubit.dart';
 import 'package:flutter/material.dart';
 
@@ -32,10 +33,12 @@ class MyApp extends StatelessWidget {
     //     child: MyHomePageScreen(),
     //   ),
     // );
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBlocCubit>(
-          create: (BuildContext context) => AuthBlocCubit()..fetchHistoryLogin(),
+          create: (BuildContext context) =>
+              AuthBlocCubit()..fetchHistoryLogin(),
         ),
         BlocProvider<HomeBlocCubit>(
           create: (BuildContext context) => HomeBlocCubit(),
@@ -43,12 +46,15 @@ class MyApp extends StatelessWidget {
         BlocProvider<RegisterBlocCubit>(
           create: (BuildContext context) => RegisterBlocCubit(),
         ),
+        BlocProvider<DetailBlocCubit>(
+          create: (BuildContext context) => DetailBlocCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Pikunikku',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.deepPurple,
         ),
         home: LoginPage(),
       ),
