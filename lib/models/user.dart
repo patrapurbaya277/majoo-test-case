@@ -1,25 +1,3 @@
-// class User {
-//   String? email;
-//   String? userName;
-//   String? password;
-
-//   User({this.email, this.userName, this.password});
-
-//   factory User.fromMap(Map<String, dynamic> json) => User(
-//         email: json['email'],
-//         password: json['password'],
-//         userName: json['username'],
-//       );
-
-//   Map<String, dynamic> toJson() =>
-//       {'email': email, 'password': password, 'username': userName};
-
-//   @override
-//   String toString() {
-//     return 'User{email: $email, username: $userName, password: $password}';
-//   }
-// }
-
 class User {
   int? id;
   String? email;

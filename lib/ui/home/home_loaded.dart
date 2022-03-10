@@ -16,7 +16,6 @@ class HomeLoaded extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget _buildSlider() {
       return Container(
-        // height: 400,
         color: Colors.black.withOpacity(0.1),
         child: CarouselSlider(
             options: CarouselOptions(
@@ -28,10 +27,6 @@ class HomeLoaded extends StatelessWidget {
                 .map(
                   (e) => InkWell(
                     onTap: () {
-                      // print(e.id);
-                      // print(e.type);
-                      // print(e.posterPath);
-                      // print(e.title);
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) =>
                               DetailPage(id: e.id.toString(), type: e.type!)));
